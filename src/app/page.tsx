@@ -1,12 +1,13 @@
-import { ArrowRight, CalendarDays, Check, MapPin, Phone, Video } from "lucide-react";
+import { ArrowRight, CalendarDays, Check, MapPin, Video } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { BarbellVisual } from "@/components/visuals";
 import { FAQ } from "@/components/faq";
 import { IntakeForm } from "@/components/intake-form";
 import { JsonLd } from "@/components/json-ld";
+import { BarbellVisual } from "@/components/visuals";
 import { articles } from "@/data/articles";
+import { results } from "@/data/results";
 import { faqSchema } from "@/data/schema";
 import { siteConfig } from "@/data/site";
 
@@ -25,6 +26,8 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
+  const [layneResult] = results;
+
   return (
     <>
       <JsonLd data={faqSchema(homeFaq, siteConfig.domain)} />
@@ -33,10 +36,10 @@ export default function Home() {
           <div className="hero-copy">
             <span className="kicker">Cleveland, TX personal coaching</span>
             <h1>Lose Fat. Build Muscle. <span>Stop Guessing.</span></h1>
-            <p className="lede">Personal fitness coaching for Cleveland, Texas and online clients who want a clear workout plan, practical diet support, and direct accountability from Layne by phone or Zoom.</p>
+            <p className="lede">Personal fitness coaching for Cleveland, Texas and online clients who want a clear workout plan, practical diet support, and direct accountability from someone who has done the work himself.</p>
             <div className="hero-actions">
               <Link className="button button-primary" href="/book-a-call"><CalendarDays aria-hidden="true" size={20} /> Book My Coaching Call</Link>
-              <a className="button button-light" href={siteConfig.phoneHref}><Phone aria-hidden="true" size={20} /> Call {siteConfig.phoneDisplay}</a>
+              <Link className="button button-light" href="/results">See Layne&apos;s Results <ArrowRight aria-hidden="true" size={18} /></Link>
             </div>
             <div className="hero-trust" aria-label="Coaching availability">
               <span><Video aria-hidden="true" size={18} /> Phone + Zoom coaching</span>
@@ -44,13 +47,6 @@ export default function Home() {
               <span><Check aria-hidden="true" size={18} /> Online nationwide</span>
             </div>
           </div>
-          <figure className="hero-proof">
-            <div className="proof-frame">
-              <Image src="/images/layne-transformation.jpg" alt="Layne's two-stage physique transformation collage showing a reported 25-pound difference over two months" width={1200} height={2134} priority sizes="(max-width: 820px) calc(100vw - 28px), 42vw" />
-              <span className="proof-label">LAYNE&apos;S OWN PROOF</span>
-            </div>
-            <figcaption className="proof-caption">Layne reports a 25-pound change over two months. Individual results vary.</figcaption>
-          </figure>
         </div>
       </section>
 
@@ -61,9 +57,36 @@ export default function Home() {
           <div className="section-heading-centered">
             <span className="kicker">Start here</span>
             <h2 id="intake-title">Tell Layne the result you want.</h2>
-            <p className="lede">Weight loss, fat burning, building muscle, getting shredded, improving your diet, or peptide safety questions. A short intake makes the call sharper.</p>
+            <p className="lede">Choose whether you want to lose fat, build muscle, or do both. A short intake gives Layne the basics before the call and keeps the conversation focused.</p>
           </div>
           <IntakeForm />
+        </div>
+      </section>
+
+      <section className="section reveal-band" aria-labelledby="home-results-title">
+        <div className="wrap result-preview">
+          <div className="result-preview-copy">
+            <span className="kicker">Layne&apos;s transformation</span>
+            <h2 id="home-results-title">He built himself before he offered to coach you.</h2>
+            <p className="lede">The before and after photos are organized on their own results page so visitors can look closer, compare clearly, and see future client progress in the same clean format.</p>
+            <Link className="button button-primary" href="/results">
+              View Results <ArrowRight aria-hidden="true" size={18} />
+            </Link>
+          </div>
+          <div className="result-photo-pair result-photo-pair-compact" aria-label="Layne before and after preview">
+            <figure className="result-photo-card">
+              <div className="result-photo-frame">
+                <Image src={layneResult.before.src} alt={layneResult.before.alt} width={layneResult.before.width} height={layneResult.before.height} sizes="(max-width: 820px) calc(100vw - 64px), 24vw" />
+                <span className="result-photo-label">Before</span>
+              </div>
+            </figure>
+            <figure className="result-photo-card">
+              <div className="result-photo-frame">
+                <Image src={layneResult.after.src} alt={layneResult.after.alt} width={layneResult.after.width} height={layneResult.after.height} sizes="(max-width: 820px) calc(100vw - 64px), 24vw" />
+                <span className="result-photo-label">After</span>
+              </div>
+            </figure>
+          </div>
         </div>
       </section>
 

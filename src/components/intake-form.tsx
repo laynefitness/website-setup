@@ -5,30 +5,26 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 
 const goals = [
-  "Lose weight / burn fat",
-  "Build muscle",
-  "Get stronger",
-  "Improve diet",
-  "Peptide safety questions",
+  "I want to lose fat",
+  "I want to build muscle",
+  "Both",
 ];
 
 export function IntakeForm({ compact = false }: { compact?: boolean }) {
   const [form, setForm] = useState({
     name: "",
-    phone: "",
+    height: "",
+    weight: "",
     goal: "",
-    location: "",
-    message: "",
   });
 
   const smsHref = useMemo(() => {
     const lines = [
       "Layne Fitness intake",
       form.name ? `Name: ${form.name}` : "Name:",
-      form.phone ? `Phone: ${form.phone}` : "Phone:",
+      form.height ? `Height: ${form.height}` : "Height:",
+      form.weight ? `Weight: ${form.weight}` : "Weight:",
       form.goal ? `Goal: ${form.goal}` : "Goal:",
-      form.location ? `Location: ${form.location}` : "Location:",
-      form.message ? `Help needed: ${form.message}` : "Help needed:",
     ];
 
     return `sms:2816597800?&body=${encodeURIComponent(lines.join("\n"))}`;
@@ -42,12 +38,16 @@ export function IntakeForm({ compact = false }: { compact?: boolean }) {
     <form className={compact ? "intake-form intake-form-compact" : "intake-form"} onSubmit={(event) => event.preventDefault()}>
       <div className="intake-grid">
         <label>
-          <span>Name</span>
+          <span>First and last name</span>
           <input name="name" autoComplete="name" placeholder="Your name" value={form.name} onChange={(event) => updateField("name", event.target.value)} required />
         </label>
         <label>
-          <span>Phone</span>
-          <input name="phone" type="tel" autoComplete="tel" placeholder="Best number" value={form.phone} onChange={(event) => updateField("phone", event.target.value)} required />
+          <span>Height</span>
+          <input name="height" placeholder="Example: 5'10&quot;" value={form.height} onChange={(event) => updateField("height", event.target.value)} required />
+        </label>
+        <label>
+          <span>Weight</span>
+          <input name="weight" placeholder="Example: 185 lb" value={form.weight} onChange={(event) => updateField("weight", event.target.value)} required />
         </label>
         <label>
           <span>Main goal</span>
@@ -56,15 +56,7 @@ export function IntakeForm({ compact = false }: { compact?: boolean }) {
             {goals.map((goal) => <option key={goal}>{goal}</option>)}
           </select>
         </label>
-        <label>
-          <span>Where are you?</span>
-          <input name="location" autoComplete="address-level2" placeholder="Cleveland, TX or nearby" value={form.location} onChange={(event) => updateField("location", event.target.value)} />
-        </label>
       </div>
-      <label>
-        <span>What do you want help with first?</span>
-        <textarea name="message" rows={compact ? 3 : 4} placeholder="Example: I want to lose fat, keep muscle, and need a workout plan I can follow 4 days a week." value={form.message} onChange={(event) => updateField("message", event.target.value)} />
-      </label>
       <div className="intake-actions">
         <a className="button button-primary" href={smsHref}>
           <MessageSquareText aria-hidden="true" size={19} />

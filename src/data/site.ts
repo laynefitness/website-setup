@@ -53,6 +53,7 @@ export type ServicePageData = {
 
 export const navigation = [
   { href: "/", label: "Home" },
+  { href: "/results", label: "Results" },
   { href: "/fitness-coaching", label: "Fitness Coaching" },
   { href: "/nutrition", label: "Nutrition" },
   { href: "/peptides", label: "Peptides" },
